@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class QuickSorter<E> implements Sorter<E> {
+
+    private static final Random random = new Random();
+
     @Override
     public void sort(Object[] data, int size, Comparator<? super E> comparator) {
         quickSort(data, 0, size - 1, comparator);
@@ -21,7 +24,7 @@ public class QuickSorter<E> implements Sorter<E> {
     }
 
     private int partition(Object[] data, int low, int high, Comparator<? super E> comparator) {
-        int rand = new Random().nextInt(low, high + 1);
+        int rand = random.nextInt(low, high + 1);
         E pivot = (E) data[rand];
 
         Object temp = data[rand];
