@@ -13,7 +13,7 @@ class QuickSorterTest {
     void shouldSortWhenNullInMiddle() {
         String[] target = new String[]{"BSecond", null, "AFirst", null, null};
         String[] expected = new String[]{"AFirst", "BSecond", null, null, null};
-        quickSorter.sort(target, 3, String::compareTo);
+        quickSorter.sort(target, String::compareTo);
         for (int i = 0; i < target.length; i++) {
             assertEquals(target[i], expected[i]);
         }
@@ -23,7 +23,7 @@ class QuickSorterTest {
     void shouldSortWhenNullInEnd() {
         String[] target = new String[]{"BSecond", "CThird", "AFirst", null};
         String[] expected = new String[]{"AFirst", "BSecond", "CThird", null};
-        quickSorter.sort(target, 4, String::compareTo);
+        quickSorter.sort(target, String::compareTo);
         for (int i = 0; i < target.length; i++) {
             assertEquals(target[i], expected[i]);
         }
@@ -33,7 +33,7 @@ class QuickSorterTest {
     void shouldSortWhenNullInBeginning() {
         String[] target = new String[]{null, "BSecond", null, "AFirst", null, null};
         String[] expected = new String[]{"AFirst", "BSecond", null, null, null, null};
-        quickSorter.sort(target, 4, String::compareTo);
+        quickSorter.sort(target, String::compareTo);
         for (int i = 0; i < target.length; i++) {
             assertEquals(target[i], expected[i]);
         }
@@ -42,13 +42,13 @@ class QuickSorterTest {
     @Test
     void shouldSortWhenOnlyNulls() {
         String[] target = new String[]{null, null, null, null};
-        assertDoesNotThrow(() -> quickSorter.sort(target, 4, String::compareTo));
+        assertDoesNotThrow(() -> quickSorter.sort(target, String::compareTo));
     }
 
     @Test
     void shouldSortWhenEmpty() {
         String[] target = new String[]{};
-        assertDoesNotThrow(() -> quickSorter.sort(target, 0, String::compareTo));
+        assertDoesNotThrow(() -> quickSorter.sort(target, String::compareTo));
     }
 
 

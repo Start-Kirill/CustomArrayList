@@ -10,10 +10,10 @@ public class QuickSorter<E> implements Sorter<E> {
     private static final Random random = new Random();
 
     @Override
-    public void sort(Object[] data, int size, Comparator<? super E> comparator) {
-        int shift = shiftNulls(data, size - 1);
-        size -= shift;
-        quickSort(data, 0, size - 1, comparator);
+    public void sort(Object[] data, Comparator<? super E> comparator) {
+        int shift = shiftNulls(data);
+        int high = data.length - 1 - shift;
+        quickSort(data, 0, high, comparator);
     }
 
     private void quickSort(Object[] data, int low, int high, Comparator<? super E> comparator) {
@@ -36,7 +36,7 @@ public class QuickSorter<E> implements Sorter<E> {
 
         int i = low - 1;
         for (int j = low; j < high; j++) {
-            if (data[j] != null && comparator.compare((E) data[j], pivot) < 0) {
+            if (comparator.compare((E) data[j], pivot) < 0) {
                 i++;
 
                 temp = data[i];
@@ -52,8 +52,9 @@ public class QuickSorter<E> implements Sorter<E> {
         return i;
     }
 
-    private int shiftNulls(Object[] data, int high) {
+    private int shiftNulls(Object[] data) {
         int count = 0;
+        int high = data.length - 1;
         for (int i = high; i >= 0; i--) {
             if (data[i] == null) {
                 if (i < high) {

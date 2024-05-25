@@ -93,7 +93,7 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
     @Override
     public void sort(Comparator<? super E> c) {
         modCount++;
-        this.sorter.sort(data, size, c);
+        this.sorter.sort(data, c);
     }
 
     @Override
