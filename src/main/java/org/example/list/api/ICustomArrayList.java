@@ -2,7 +2,7 @@ package org.example.list.api;
 
 import java.util.Comparator;
 
-public interface ICustomArrayList<E> {
+public interface ICustomArrayList<E> extends Iterable<E> {
 
     int size();
 
