@@ -105,7 +105,43 @@ class CustomArrayListTest {
     }
 
     /**
-     * Тестируется получение 10_000 элементов из случайных позиций списка
+     * Тестируется корректность удаления элемента из середины списка
+     */
+    @Test
+    void shouldRemoveElementsOuOfMiddlePosition() {
+        CustomArrayList<Integer> target = createListOfNumbers(1, 2, 3, 4);
+        CustomArrayList<Integer> expected = createListOfNumbers(1, 2, 4);
+        target.remove(2);
+        assertEquals(target.size(), expected.size());
+        assertEquals(expected, target);
+    }
+
+    /**
+     * Тестируется корректность удаления элемента из начала списка
+     */
+    @Test
+    void shouldRemoveElementsOuOfBeginningPosition() {
+        CustomArrayList<Integer> target = createListOfNumbers(1, 2, 3, 4);
+        CustomArrayList<Integer> expected = createListOfNumbers(2, 3, 4);
+        target.remove(0);
+        assertEquals(target.size(), expected.size());
+        assertEquals(expected, target);
+    }
+
+    /**
+     * Тестируется корректность удаления элемента из конца списка
+     */
+    @Test
+    void shouldRemoveElementsOuOfEndPosition() {
+        CustomArrayList<Integer> target = createListOfNumbers(1, 2, 3, 4);
+        CustomArrayList<Integer> expected = createListOfNumbers(1, 2, 3);
+        target.remove(3);
+        assertEquals(target.size(), expected.size());
+        assertEquals(expected, target);
+    }
+
+    /**
+     * Тестируется удаление 10_000 элементов из случайных позиций списка
      */
     @Test
     void shouldRemove1000ElementsOuOfRandomPosition() {
