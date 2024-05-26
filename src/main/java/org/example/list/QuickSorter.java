@@ -5,10 +5,22 @@ import org.example.list.api.Sorter;
 import java.util.Comparator;
 import java.util.Random;
 
+/**
+ * Реализация интерфейса Sorter алгоритмом быстрой сортировке.
+ *
+ * @param <E> - тип элементов сортировке
+ */
 public class QuickSorter<E> implements Sorter<E> {
 
     private static final Random random = new Random();
 
+    /**
+     * Сортирует массив объектов в соотвествии с переданным компаратором.
+     * В случает если в массиве храняться null, они будут смещены до конца вправо
+     *
+     * @param data - массив для сортировке
+     * @param comparator - реализация Comparator для сортируемых объектов
+     */
     @Override
     public void sort(Object[] data, Comparator<? super E> comparator) {
         int shift = shiftNulls(data);

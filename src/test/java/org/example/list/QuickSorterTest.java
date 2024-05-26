@@ -5,10 +5,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тесты для QuickSorter
+ */
 class QuickSorterTest {
 
     private final QuickSorter<String> quickSorter = new QuickSorter<>();
 
+    /**
+     * Тестируется корректность сортирвке с null в центре массива
+     */
     @Test
     void shouldSortWhenNullInMiddle() {
         String[] target = new String[]{"BSecond", null, "AFirst", null, null};
@@ -19,6 +25,9 @@ class QuickSorterTest {
         }
     }
 
+    /**
+     * Тестируется корректность сортирвке с null в конце массива
+     */
     @Test
     void shouldSortWhenNullInEnd() {
         String[] target = new String[]{"BSecond", "CThird", "AFirst", null};
@@ -29,6 +38,9 @@ class QuickSorterTest {
         }
     }
 
+    /**
+     * Тестируется корректность сортирвке с null в начале и центре массива
+     */
     @Test
     void shouldSortWhenNullInBeginning() {
         String[] target = new String[]{null, "BSecond", null, "AFirst", null, null};
@@ -39,12 +51,18 @@ class QuickSorterTest {
         }
     }
 
+    /**
+     * Тестируется корректность сортирвке с массивом заполненным null
+     */
     @Test
     void shouldSortWhenOnlyNulls() {
         String[] target = new String[]{null, null, null, null};
         assertDoesNotThrow(() -> quickSorter.sort(target, String::compareTo));
     }
 
+    /**
+     * Тестируется корректность сортирвке пустого массива
+     */
     @Test
     void shouldSortWhenEmpty() {
         String[] target = new String[]{};

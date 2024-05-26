@@ -9,6 +9,9 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Тесты для класса CustomArrayList
+ */
 class CustomArrayListTest {
 
     private CustomArrayList<Integer> customArrayList;
@@ -18,12 +21,17 @@ class CustomArrayListTest {
         customArrayList = new CustomArrayList<>();
     }
 
+    /**
+     * Тестируется невозможность создания листа с отрицательной емкостью
+     */
     @Test
     void shouldThrowWhileCreation() {
         assertThrows(IllegalArgumentException.class, () -> new CustomArrayList<>(-1));
     }
 
-
+    /**
+     * Тестируется добавление одного элемента в конец списка
+     */
     @Test
     void shouldAddOneElement() {
         final Integer elementTest = 100;
@@ -31,6 +39,9 @@ class CustomArrayListTest {
         assertEquals(elementTest, customArrayList.get(0));
     }
 
+    /**
+     * Тестируется добавление 100_000 элементов в список
+     */
     @Test
     void shouldAdd100000RandomElements() {
         final Random random = new Random();
@@ -39,6 +50,9 @@ class CustomArrayListTest {
         }
     }
 
+    /**
+     * Тестируется добавление 100_000 элементов на случайные позиции списка
+     */
     @Test
     void shouldAdd100000RandomElementsInRandomIndex() {
         final Random random = new Random();
@@ -48,16 +62,25 @@ class CustomArrayListTest {
         }
     }
 
+    /**
+     * Тестируется невозможность добавления элемента по отрицательному индексу
+     */
     @Test
     void shouldThrowWhileInsertionInNegativePosition() {
         assertThrows(IndexOutOfBoundsException.class, () -> this.customArrayList.add(-1, 100));
     }
 
+    /**
+     * Тестируется невозможность непоследовательного добавления элемента
+     */
     @Test
     void shouldThrowWhileInsertionInOutOfSizePosition() {
         assertThrows(IndexOutOfBoundsException.class, () -> this.customArrayList.add(1, 100));
     }
 
+    /**
+     * Тестируется получение элемента списка
+     */
     @Test
     void shouldGetOneElement() {
         final Integer test = 100;
@@ -65,16 +88,25 @@ class CustomArrayListTest {
         assertEquals(test, customArrayList.get(0));
     }
 
+    /**
+     * Тестируется невозможность получения элемента списка по отрицательному индексу
+     */
     @Test
     void shouldThrowWhileGettingOutOfNegativePosition() {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.get(-1));
     }
 
+    /**
+     * Тестируется невозможность получения элемента из пустого списка
+     */
     @Test
     void shouldThrowWhileGettingOutOfEmptyList() {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.get(0));
     }
 
+    /**
+     * Тестируется получение 10_000 элементов из случайных позиций списка
+     */
     @Test
     void shouldRemove1000ElementsOuOfRandomPosition() {
         fillList(10000);
@@ -85,16 +117,25 @@ class CustomArrayListTest {
         }
     }
 
+    /**
+     * Тестируется невозможность удаления элемента списка по отрицательному индексу
+     */
     @Test
     void shouldThrowWhileRemovingOutOfNegativePosition() {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.remove(-1));
     }
 
+    /**
+     * Тестируется невозможность удаления из пустого списка
+     */
     @Test
     void shouldThrowWhileRemovingOutOfEmptyList() {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.remove(0));
     }
 
+    /**
+     * Тестируется ичищение списка
+     */
     @Test
     void shouldClear() {
         fillList(100);
@@ -102,13 +143,19 @@ class CustomArrayListTest {
         assertEquals(0, customArrayList.size());
     }
 
+    /**
+     * Тестируется невозможность непоследовательного добавления элемента в список после его очищения
+     */
     @Test
     void shouldThrowWhileInsertionInClearedList() {
         fillList(10);
         customArrayList.clear();
-        assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.add(100, 1));
+        assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.add(9, 1));
     }
 
+    /**
+     * Тестирется сортировка списка
+     */
     @Test
     void shouldSort() {
         CustomArrayList<Integer> unsortedList = createListOfNumbers(0, 3, 4, 1, 5, 6, 2, 9, 7, 8);
@@ -117,6 +164,9 @@ class CustomArrayListTest {
         assertEquals(unsortedList, customArrayList);
     }
 
+    /**
+     * Тестируется замена 1000 элемента в случайной позиции
+     */
     @Test
     void shouldReplaceElementInRandomPosition() {
         final Random random = new Random();
@@ -127,6 +177,9 @@ class CustomArrayListTest {
         }
     }
 
+    /**
+     * Тестируется корректность замены элемента
+     */
     @Test
     void shouldProperlyReplaceElement() {
         CustomArrayList<Integer> firstListOfNumbers = createListOfNumbers(1, 2, 3, 4);
@@ -135,12 +188,18 @@ class CustomArrayListTest {
         assertEquals(firstListOfNumbers, secListOfNumbers);
     }
 
+    /**
+     * Тестирует невозможность замены элементы по отрицательному индексу
+     */
     @Test
     void shouldThrowWhileReplacingInNegativePosition() {
         fillList(10);
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.replace(-1, 3));
     }
 
+    /**
+     * Тестирует невозможность замены элементы по индексу выходящему за пределы списка
+     */
     @Test
     void shouldThrowWhileReplacingInOutOfSizePosition() {
         fillList(10);
@@ -148,17 +207,26 @@ class CustomArrayListTest {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.replace(size, 3));
     }
 
+    /**
+     * Тестирует невозможность замены элементы в пустом списке
+     */
     @Test
     void shouldThrowWhileReplacingInEmptyList() {
         assertThrows(IndexOutOfBoundsException.class, () -> customArrayList.replace(0, 3));
     }
 
+    /**
+     * Тестируется корректное получение размера списка в случае добавления элементов
+     */
     @Test
     void shouldHaveRightSizeInCaseOfAdding() {
         fillList(100_000);
         assertEquals(100_000, customArrayList.size());
     }
 
+    /**
+     * Тестируется корректное получение размера списка в случае удаления элементов
+     */
     @Test
     void shouldHaveRightSizeInCaseOfRemoving() {
         fillList(100);
@@ -167,11 +235,17 @@ class CustomArrayListTest {
         assertEquals(98, customArrayList.size());
     }
 
+    /**
+     * Тестируется корректное получение размера списка в пустом списке
+     */
     @Test
     void shouldHaveRightSizeInEmptyList() {
         assertEquals(0, customArrayList.size());
     }
 
+    /**
+     * Тестируется работа итератора
+     */
     @Test
     void shouldIterate() {
         fillList(10);
@@ -181,6 +255,9 @@ class CustomArrayListTest {
         }
     }
 
+    /**
+     * Тестируется невозможность модификации списка во время работы итератора
+     */
     @Test
     void shouldThrowWhileIterating() {
         fillList(10);

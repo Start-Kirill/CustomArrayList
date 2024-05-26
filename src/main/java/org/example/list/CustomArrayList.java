@@ -5,19 +5,54 @@ import org.example.list.api.Sorter;
 
 import java.util.*;
 
+/**
+ * Реализация саморасширяемого массива элементов ICustomArrayList интерфейса.
+ * CustomArrayList имеет началную ёмкость, которая может быть задана при создании списка или
+ * установлена по умолчанию в размере 10 элементов. Список может быть отсортировон. За спосод
+ * сортировки отвечает Sorter который может быть передан в конструкторе или установлен по умолчанию.
+ * По умолчанию устанавливается алгоритм быстрой сортировке.
+ * Реализация не синхронизирована.
+ * Так предоставляется возможность воспользоваться Iterator для итеррирования спика. В процессе итеррирования
+ * список не может быть изменен. В противном случает будет выброшено ConcurrentModificationException.
+ *
+ * @param <E> - тип элементов списка
+ * @author : Kiryl Staravoitau
+ */
 public class CustomArrayList<E> implements ICustomArrayList<E> {
 
+    /**
+     * Начальная емкость списка по умолчанию
+     */
     private static final int DEFAULT_CAPACITY = 10;
 
+    /**
+     * Реализация сортировки
+     */
     private final Sorter<E> sorter;
 
+    /**
+     * Элементы списка
+     */
     private Object[] data;
 
+    /**
+     * Размер списка
+     */
     private int size;
 
+    /**
+     * Счетчик модификаций. Необходим для отслеживания изменений списка при итерации
+     */
     private int modCount = 0;
 
 
+    /**
+     * Создает пустой список с желаемой начальной емкостью и желаемой реализацией сортировки
+     *
+     * @param capacity - начальная емкость списка
+     * @param sorter   - реализация сортировки
+     * @throws IllegalArgumentException - если передано отрицательное значение емкости
+     */
     public CustomArrayList(int capacity, Sorter<E> sorter) {
         if (capacity < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + capacity);
@@ -26,6 +61,12 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         this.sorter = sorter;
     }
 
+    /**
+     * Создает пустой список с желаемой начальной емкостью
+     *
+     * @param capacity - начальная емкость списка
+     * @throws IllegalArgumentException - если передано отрицательное значение емкости
+     */
     public CustomArrayList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + capacity);
@@ -34,17 +75,28 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         this.sorter = new QuickSorter<>();
     }
 
+    /**
+     * Создает пустой список с желаемой реализацией сортировки
+     *
+     * @param sorter - реализация сортировки
+     */
     public CustomArrayList(Sorter<E> sorter) {
         data = new Object[DEFAULT_CAPACITY];
         this.sorter = sorter;
     }
 
+    /**
+     * Создает пустой списко с начальной емкостью 10 и быстрой сортировкой в качестве алгоритма сортировке
+     */
     public CustomArrayList() {
         data = new Object[DEFAULT_CAPACITY];
         this.sorter = new QuickSorter<>();
     }
 
-
+    /**
+     * Добавляет элемент в конец списка
+     * @param e - вставляемый элемент
+     */
     @Override
     public void add(E e) {
         modCount++;
@@ -52,6 +104,13 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         data[size++] = e;
     }
 
+    /**
+     * Добавляет элемент по индексу. Элементы справа от индекса смещаются на одну позицию вправо
+     *
+     * @param index - индекс по которому недходимо произвести вставку
+     * @param e - вставляемый элемент
+     * @throws IndexOutOfBoundsException - если переданный индекс отрицательный или выходит за пределы списка
+     */
     @Override
     public void add(int index, E e) {
         modCount++;
@@ -64,12 +123,26 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         size++;
     }
 
+    /**
+     * Получает элемент по индексу
+     *
+     * @param index - индексы получаемого элемента
+     * @return : элемент по искомому индексу
+     * @throws IndexOutOfBoundsException - если переданный индекс отрицательный или выходит за пределы списка
+     */
     @Override
     public E get(int index) {
         checkIndex(index);
         return (E) this.data[index];
     }
 
+    /**
+     * Удаляет элемент спика по индексу. Элменты справа от удаляемого смещаются на одну позицию влево
+     *
+     * @param index - индекс удаляемго элемента
+     * @return - удаленный элемент
+     * @throws IndexOutOfBoundsException - если переданный индекс отрицательный или выходит за пределы списка
+     */
     @Override
     public E remove(int index) {
         modCount++;
@@ -83,6 +156,10 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         return e;
     }
 
+    /**
+     * Очищает список
+     *
+     */
     @Override
     public void clear() {
         modCount++;
@@ -90,12 +167,23 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         size = 0;
     }
 
+    /**
+     * Сортирует список в соответсвии с заданным компоратором
+     *
+     * @param c - реализация Comparator для элементов списка
+     */
     @Override
     public void sort(Comparator<? super E> c) {
         modCount++;
         this.sorter.sort(data, c);
     }
 
+    /**
+     * Заменяет елемент списка по индексу
+     *
+     * @param index - индекс по которому проводится замена
+     * @param e - элемент на который нужно заменить
+     */
     @Override
     public void replace(int index, E e) {
         modCount++;
@@ -103,15 +191,24 @@ public class CustomArrayList<E> implements ICustomArrayList<E> {
         this.data[index] = e;
     }
 
+    /**
+     * Возвращает размер списка
+     * @return : размер списка
+     */
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * Предоставляет итератор для списка
+     * @return : итератор для списка
+     */
     @Override
     public Iterator<E> iterator() {
         return new Itr();
     }
+
 
     @Override
     public String toString() {
